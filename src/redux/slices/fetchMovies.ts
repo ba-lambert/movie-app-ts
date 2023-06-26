@@ -21,12 +21,33 @@ const initialState: InitialState = {
     error:null,
 }
 
-export const getMoviesSlice = createAsyncThunk("/getMovies", async ()=>{
+export const getMoviesSliceThunk = createAsyncThunk("/getMovies", async ()=>{
     try{
         const res =await fetchMovies();
         return res
     }catch(error:any){
         return error.message;
+    }
+})
+
+export const getMoviesSlice = createSlice({
+    name:"movies",
+    initialState,
+    reducers:{},
+    extraReducers: (builder)=>{
+        builder
+            .addCase(getMoviesSliceThunk.pending, (state)=>{
+                state.isLoading = true;
+            })
+            .addCase(getMoviesSliceThunk.fulfilled,(state,actions)=>{
+                state.isLoading = false;
+                state.movies = actions.payload;
+            })
+            .addCase(getMoviesSliceThunk.rejected,(state,{payload})=>{
+                state.isLoading = false;
+                state.movies = [];
+                state.error = payload;
+            })
     }
 })
 export default getMoviesSlice.reducer;

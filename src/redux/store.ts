@@ -1,6 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
+import getMoviesSlice from './slices/fetchMovies';
 
 const store =configureStore({
-    reducer:{}
+    reducer:{
+        movies:getMoviesSlice,
+    }
 })
-export default store
+export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;
