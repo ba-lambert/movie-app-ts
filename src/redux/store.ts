@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import getMoviesSlice from './slices/fetchMovies';
 
-const store =configureStore({
+export const store =configureStore({
     reducer:{
         movies:getMoviesSlice,
     }
