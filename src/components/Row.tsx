@@ -21,7 +21,7 @@ type movieList = {
 
 function Row({ title, url, styles }: getItems) {
   const [movies, setMovies] = useState<movie[]>([]);
-  
+
   useEffect(() => {
     const fetchMovies = async () => {
       try {
@@ -31,33 +31,37 @@ function Row({ title, url, styles }: getItems) {
         console.error(error);
       }
     };
-    
+
     fetchMovies();
   }, []);
-  
+
   console.log(movies);
 
   return (
-    <div className={`${styles} flex flex-col`}>
+    <div className={`${styles} flex flex-col mt-10 w-screen mx-3`}>
       <p className="text-bold relative font-mono text-2xl">{title}</p>
-      <section className="flex flex-row">
-        {!movies ? (
-          <p>Loading, please wait for movies...</p>
-        ) : (
-          movies.map((movie: movie) => (
-            <div
-              key={movie.id}
-              className="w-[470px] h-[230px] bg-cover ml-10 rounded-3xl relative"
-              style={{
-                backgroundImage: `url(https://www.themoviedb.org/t/p/w600_and_h600_bestv2${movie.backdrop_path})`,
-              }}
-            >
-              <div className="absolute bottom-0 p-4">
-                <p className="text-white font-poppins text-lg font-bold mb-2">{movie.original_title}</p>
+      <section className="flex flex-row overflow-x-auto" style={{WebkitScrollSnapType:"inline"}}>
+        <div className="flex">
+          {!movies ? (
+            <p>Loading, please wait for movies...</p>
+          ) : (
+            movies.map((movie: movie) => (
+              <div
+                key={movie.id}
+                className="w-[470px] h-[230px] bg-cover ml-10 rounded-lg relative bg-gradient-to-r from-indigo-500 to-red-500"
+                style={{
+                  backgroundImage: `url(https://www.themoviedb.org/t/p/w600_and_h600_bestv2${movie.backdrop_path})`,
+                }}
+              >
+                <div className="absolute bottom-0 p-4">
+                  <p className="text-white font-poppins text-lg font-bold mb-2">
+                    {movie.original_title}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))
-        )}
+            ))
+          )}
+        </div>
       </section>
     </div>
   );
