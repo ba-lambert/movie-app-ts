@@ -16,7 +16,7 @@ type movie = {
 };
 
 type movieList = {
-  results: [];
+  results: movie[];
 };
 
 function Row({ title, url, styles }: getItems) {
@@ -38,28 +38,32 @@ function Row({ title, url, styles }: getItems) {
   console.log(movies);
 
   return (
-    <div className={`${styles} flex flex-col mt-10 w-screen mx-3`}>
-      <p className="text-bold relative font-mono text-2xl">{title}</p>
-      <section className="flex flex-row overflow-x-auto" style={{WebkitScrollSnapType:"inline"}}>
-        <div className="flex">
+    <div className='flex mt-20 flex-col'>
+      <p className='font-bold'>{title}</p>
+      <section className='flex w-screen'>
+        <div className='flex h-64 overflow-auto'>
           {!movies ? (
             <p>Loading, please wait for movies...</p>
           ) : (
-            movies.map((movie: movie) => (
-              <div
-                key={movie.id}
-                className="w-[470px] h-[230px] bg-cover ml-10 rounded-lg relative bg-gradient-to-r from-indigo-500 to-red-500"
-                style={{
-                  backgroundImage: `url(https://www.themoviedb.org/t/p/w600_and_h600_bestv2${movie.backdrop_path})`,
-                }}
-              >
-                <div className="absolute bottom-0 p-4">
-                  <p className="text-white font-poppins text-lg font-bold mb-2">
-                    {movie.original_title}
-                  </p>
+            <div className='flex'>
+              {movies.map((movie: movie) => (
+                <div
+                  key={movie.id}
+                  className='h-full w-96 mr-3 rounded-md'
+                  style={{
+                    backgroundImage: `url(https://www.themoviedb.org/t/p/w500/${movie.backdrop_path})`,
+                    backgroundPosition: 'center',
+                    backgroundSize: 'cover',
+                  }}
+                >
+                  <div className='h-full flex flex-col justify-end p-4'>
+                    <p className='text-white text-lg font-semibold'>
+                      {movie.original_title}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))
+              ))}
+            </div>
           )}
         </div>
       </section>
